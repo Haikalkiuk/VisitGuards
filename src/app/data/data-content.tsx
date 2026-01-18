@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo, useEffect, Suspense } from "react";
 import { Search, Filter } from "lucide-react";
 import { formatDate, getStatusColor, getStatusLabel } from "@/lib/utils";
 import { getLeafData, type LeafData } from "@/lib/data-sync";
 import { useSearchParams } from "next/navigation";
 
-export default function DataPageContent() {
+function DataTableContent() {
   const searchParams = useSearchParams();
   const [searchTerm, setSearchTerm] = useState("");
   const [filterStatus, setFilterStatus] = useState<string>("all");
@@ -158,5 +158,13 @@ export default function DataPageContent() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function DataPageContent() {
+  return (
+    <Suspense fallback={<div className="p-8 text-center">Loading...</div>}>
+      <DataTableContent />
+    </Suspense>
   );
 }
